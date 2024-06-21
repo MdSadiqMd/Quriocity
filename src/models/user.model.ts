@@ -1,17 +1,12 @@
 import mongoose, { Document, Schema, Model } from 'mongoose';
 
 interface IUser extends Document {
-    id: string;
     username: string;
     email: string;
     bio?: string;
 }
 
 const userSchema: Schema = new mongoose.Schema({
-    id: {
-        type: String,
-        required: [true, 'Id of the user cannot be empty']
-    },
     username: {
         type: String,
         required: [true, 'Username of the user cannot be empty']

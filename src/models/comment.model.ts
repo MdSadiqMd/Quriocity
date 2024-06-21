@@ -1,7 +1,6 @@
 import mongoose, { Document, Schema, Model } from 'mongoose';
 
 interface IComment extends Document {
-    id: string;
     parent_id: string;
     text: string;
     createdAt?: Date;
@@ -9,10 +8,6 @@ interface IComment extends Document {
 }
 
 const commentSchema: Schema = new mongoose.Schema({
-    id: {
-        type: String,
-        required: [true, 'Id of the comment cannot be empty']
-    },
     parent_id: {
         type: String,
         required: [true, 'Parent ID of the comment cannot be empty']

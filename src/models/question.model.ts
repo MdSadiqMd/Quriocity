@@ -1,7 +1,6 @@
 import mongoose, { Document, Schema, Model } from 'mongoose';
 
 interface IQuestion extends Document {
-    id: string;
     title: string;
     body: string;
     topics: string[];
@@ -11,10 +10,6 @@ interface IQuestion extends Document {
 }
 
 const questionSchema: Schema = new mongoose.Schema({
-    id: {
-        type: String,
-        required: [true, 'Id of the question cannot be empty']
-    },
     title: {
         type: String,
         required: [true, 'Title of the question cannot be empty']
