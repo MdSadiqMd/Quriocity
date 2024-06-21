@@ -1,6 +1,13 @@
-import mongoose from "mongoose";
+import mongoose, { Document, Schema, Model } from 'mongoose';
 
-const userSchema = new mongoose.Schema({
+interface IUser extends Document {
+    id: string;
+    username: string;
+    email: string;
+    bio?: string;
+}
+
+const userSchema: Schema = new mongoose.Schema({
     id: {
         type: String,
         required: [true, 'Id of the user cannot be empty']
@@ -19,5 +26,5 @@ const userSchema = new mongoose.Schema({
     }
 });
 
-const User = mongoose.model('users', userSchema);
+const User: Model<IUser> = mongoose.model<IUser>('users', userSchema);
 module.exports = User;
