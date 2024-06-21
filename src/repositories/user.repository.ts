@@ -1,6 +1,6 @@
 const { User } = require('../models/index');
 const NotFound = require('../errors/notfound.error');
-/* import logger from "../config/logger.config"; */
+import logger from "../config/logger.config";
 
 interface UserData {
     username: string;
@@ -16,10 +16,10 @@ class UserRepository {
                 email: UserData.email,
                 bio: UserData.bio ?? ""
             });
-            //logger.info(`Problem created with ID: ${problem._id}`);
+            logger.info(`User created with ID: ${user._id}`);
             return user;
         } catch (error) {
-            //logger.error('Error creating problem', error);
+            logger.error('Error creating User: ', error);
             throw error;
         }
     }
@@ -28,13 +28,13 @@ class UserRepository {
         try {
             const user = await User.findById(id);
             if (!user) {
-                //logger.warn(`Problem with ID: ${id} not found`);
+                logger.warn(`User with ID: ${id} not found`);
                 throw new NotFound('User', id);
             }
-            //logger.info(`Problem with ID: ${id} retrieved`);
+            logger.info(`User with ID: ${id} retrieved`);
             return user;
         } catch (error) {
-            //logger.error(`Error retrieving problem with ID: ${id}`, error);
+            logger.error(`Error retrieving user with ID: ${id}: `, error);
             throw error;
         }
     }
@@ -42,10 +42,10 @@ class UserRepository {
     async getAllUsers() {
         try {
             const users = await User.find({});
-            //logger.info(`Retrieved all problems`);
+            logger.info(`Retrieved all users`);
             return users;
         } catch (error) {
-            //logger.error('Error retrieving all problems', error);
+            logger.error('Error retrieving all users: ', error);
             throw error;
         }
     }
@@ -57,13 +57,13 @@ class UserRepository {
                 runValidators: true
             });
             if (!updatedUser) {
-                //logger.warn(`Problem with ID: ${id} not found for update`);
+                logger.warn(`User with ID: ${id} not found for update`);
                 throw new NotFound('User', id);
             }
-            //logger.info(`Problem with ID: ${id} updated`);
+            logger.info(`User with ID: ${id} updated`);
             return updatedUser;
         } catch (error) {
-            //logger.error(`Error updating problem with ID: ${id}`, error);
+            logger.error(`Error updating user with ID: ${id}: `, error);
             throw error;
         }
     }
@@ -72,13 +72,13 @@ class UserRepository {
         try {
             const deleteUser = await User.findByIdAndDelete(id);
             if (!deleteUser) {
-                //logger.warn(`Problem with ID: ${id} not found for deletion`);
+                logger.warn(`User with ID: ${id} not found for deletion`);
                 throw new NotFound('User', id);
             }
-            //logger.info(`Problem with ID: ${id} deleted`);
+            logger.info(`User with ID: ${id} deleted`);
             return deleteUser;
         } catch (error) {
-            //logger.error(`Error deleting problem with ID: ${id}`, error);
+            logger.error(`Error deleting user with ID: ${id}: `, error);
             throw error;
         }
     }
