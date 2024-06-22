@@ -26,6 +26,10 @@ const questionSchema: Schema = new mongoose.Schema({
         type: String,
         required: [true, 'User ID of the question cannot be empty']
     }
+    /* user_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+    }, */
 }, {
     timestamps: true as const
 });
