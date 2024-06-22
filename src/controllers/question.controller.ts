@@ -1,89 +1,89 @@
 import { NextFunction, Request, Response } from "express";
-const { UserService } = require('../services/index');
-const { UserRepository } = require('../repositories/index');
+const { QuestionService } = require('../services/index');
+const { QuestionRepository } = require('../repositories/index');
 const StatusCodes = require('http-status-codes');
 
-const userService = new UserService(new UserRepository());
+const questionService = new QuestionService(new QuestionRepository());
 
-function pingUserController(req: Request, res: Response) {
-  return res.json({ message: "pong problem controller" });
+function pingQuestionController(req: Request, res: Response) {
+    return res.json({ message: "pong question controller" });
 }
 
-async function createUser(req: Request, res: Response, next: NextFunction) {
-  try {
-    const newUser = await userService.createUser(req.body);
-    return res.status(StatusCodes.CREATED).json({
-      success: true,
-      message: 'New User Created Succesfully',
-      error: {},
-      data: newUser
-    });
-  } catch (error) {
-    next(error);
-  }
+async function createQuestion(req: Request, res: Response, next: NextFunction) {
+    try {
+        const newQuestion = await questionService.createQuestion(req.body);
+        return res.status(StatusCodes.CREATED).json({
+            success: true,
+            message: 'New Question Created Succesfully',
+            error: {},
+            data: newQuestion
+        });
+    } catch (error) {
+        next(error);
+    }
 }
 
-async function getUser(req: Request, res: Response, next: NextFunction) {
-  try {
-    const user = await userService.getUser(req.params.id);
-    return res.status(StatusCodes.OK).json({
-      success: "true",
-      message: "User Fetched",
-      error: {},
-      data: user
-    });
-  } catch (error) {
-    next(error);
-  }
+async function searchQuestion(req: Request, res: Response, next: NextFunction) {
+    try {
+        const question = await questionService.searchQuestion(req.body);
+        return res.status(StatusCodes.OK).json({
+            success: "true",
+            message: "Question Fetched",
+            error: {},
+            data: question
+        });
+    } catch (error) {
+        next(error);
+    }
 }
 
-async function getAllUsers(req: Request, res: Response, next: NextFunction) {
-  try {
-    const users = await userService.getAllUsers();
-    return res.status(StatusCodes.OK).json({
-      success: "true",
-      message: "All Users Fetched",
-      error: {},
-      data: users
-    });
-  } catch (error) {
-    next(error);
-  }
+async function getAllQuestions(req: Request, res: Response, next: NextFunction) {
+    try {
+        const questions = await questionService.getAllQuestions();
+        return res.status(StatusCodes.OK).json({
+            success: "true",
+            message: "All Questions Fetched",
+            error: {},
+            data: questions
+        });
+    } catch (error) {
+        next(error);
+    }
 }
 
-async function updateUser(req: Request, res: Response, next: NextFunction) {
-  try {
-    const updatedUser = await userService.updateUser(req.params.id, req.body);
-    return res.status(StatusCodes.OK).json({
-      success: "true",
-      message: "Problem Updated",
-      error: {},
-      data: updatedUser
-    });
-  } catch (error) {
-    next(error);
-  }
+async function updateQuestion(req: Request, res: Response, next: NextFunction) {
+    try {
+        const updatedQuestion = await questionService.updateQuestion(req.params.id, req.body);
+        return res.status(StatusCodes.OK).json({
+            success: "true",
+            message: "Question Updated",
+            error: {},
+            data: updatedQuestion
+        });
+    } catch (error) {
+        next(error);
+    }
 }
 
-async function deleteUser(req: Request, res: Response, next: NextFunction) {
-  try {
-    const deleteUser = await userService.deleteUser(req.params.id);
-    return res.status(StatusCodes.OK).json({
-      success: "true",
-      message: "Problem Deleted",
-      error: {},
-      data: deleteUser
-    });
-  } catch (error) {
-    next(error);
-  }
+async function deleteQuestion(req: Request, res: Response, next: NextFunction) {
+    try {
+        const deleteQuestion = await questionService.deleteQuestion(req.params.id);
+        return res.status(StatusCodes.OK).json({
+            success: "true",
+            message: "Question Deleted",
+            error: {},
+            data: deleteQuestion
+        });
+    } catch (error) {
+        next(error);
+    }
 }
 
 module.exports = {
-  pingUserController,
-  createUser,
-  getUser,
-  getAllUsers,
-  updateUser,
-  deleteUser
+    pingQuestionController,
+    createQuestion,
+    searchQuestion,
+    getAllQuestions,
+    updateQuestion,
+    deleteQuestion
 };

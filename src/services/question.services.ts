@@ -1,50 +1,49 @@
-interface UserData {
+interface QuestionData {
     title: string;
     body: string;
     topics: string[];
     user_id: string;
-    createdAt?: Date;
 }
 
-interface UserRepository {
-    createUser(UserData: UserData): Promise<any>;
-    getUser(userId: string): Promise<any>;
-    getAllUsers(): Promise<any[]>;
-    updateUser(userId: string, updatedData: Partial<UserData>): Promise<any>;
-    deleteUser(userId: string): Promise<any>;
+interface QuestionRepository {
+    createQuestion(QuestionData: QuestionData): Promise<any>;
+    searchQuestion(searchData: Partial<QuestionData>): Promise<any>;
+    getAllQuestions(): Promise<any[]>;
+    updateQuestion(questionId: string, updatedData: Partial<QuestionData>): Promise<any>;
+    deleteQuestion(questionId: string): Promise<any>;
 }
 
-class UserService {
-    private UserRepository: UserRepository;
+class QuestionService {
+    private QuestionRepository: QuestionRepository;
 
-    constructor(UserRepository: UserRepository) {
-        this.UserRepository = UserRepository;
+    constructor(QuestionRepository: QuestionRepository) {
+        this.QuestionRepository = QuestionRepository;
     }
 
-    async createUser(UserData: UserData): Promise<any> {
-        const user = await this.UserRepository.createUser(UserData);
-        return user;
+    async createQuestion(QuestionData: QuestionData): Promise<any> {
+        const question = await this.QuestionRepository.createQuestion(QuestionData);
+        return question;
     }
 
-    async getUser(userId: string): Promise<any[]> {
-        const user = await this.UserRepository.getUser(userId);
-        return user;
+    async searchQuestion(searchData: Partial<QuestionData>): Promise<any[]> {
+        const question = await this.QuestionRepository.searchQuestion(searchData);
+        return question;
     }
 
-    async getAllUsers(): Promise<any[]> {
-        const users = await this.UserRepository.getAllUsers();
-        return users;
+    async getAllQuestions(): Promise<any[]> {
+        const questions = await this.QuestionRepository.getAllQuestions();
+        return questions;
     }
 
-    async updateUser(userId: string, updatedData: Partial<UserData>): Promise<any> {
-        const user = await this.UserRepository.updateUser(userId, updatedData);
-        return user;
+    async updateQuestion(questionId: string, updatedData: Partial<QuestionData>): Promise<any> {
+        const question = await this.QuestionRepository.updateQuestion(questionId, updatedData);
+        return question;
     }
 
-    async deleteUser(userId: string): Promise<any> {
-        const user = await this.UserRepository.deleteUser(userId);
-        return user;
+    async deleteQuestion(questionId: string): Promise<any> {
+        const question = await this.QuestionRepository.deleteQuestion(questionId);
+        return question;
     }
 }
 
-module.exports = UserService;
+module.exports = QuestionService;

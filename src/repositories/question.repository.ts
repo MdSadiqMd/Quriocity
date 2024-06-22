@@ -1,87 +1,89 @@
-const { User } = require('../models/index');
+const { Question } = require('../models/index');
 const NotFound = require('../errors/notfound.error');
 import logger from "../config/logger.config";
 
-interface UserData {
-    username: string;
-    email: string;
-    bio?: string;
+interface QuestionData {
+    title: string;
+    body: string;
+    topics: string[];
+    user_id: string;
 }
 
-class UserRepository {
-    async createUser(UserData: UserData) {
+class QuestionRepository {
+    async createQuestion(QuestionData: QuestionData) {
         try {
-            const user = await User.create({
-                username: UserData.username,
-                email: UserData.email,
-                bio: UserData.bio ?? ""
+            const question = await Question.create({
+                title: QuestionData.title,
+                body: QuestionData.body,
+                topics: QuestionData.topics,
+                user_id: QuestionData.user_id,
             });
-            logger.info(`User created with ID: ${user._id}`);
-            return user;
+            logger.info(`Question created with ID: ${question._id}`);
+            return question;
         } catch (error) {
-            logger.error('Error creating User: ', error);
+            logger.error('Error creating Question: ', error);
             throw error;
         }
     }
 
-    async getUser(id: string) {
+    async searchQuestion(searchData: string, projection?: Partial<Record<keyof QuestionData, number>>) {
         try {
-            const user = await User.findById(id);
-            if (!user) {
-                logger.warn(`User with ID: ${id} not found`);
-                throw new NotFound('User', id);
+            const questions = await Question.find({ $text: { $search: searchData } }).select(projection);
+            if (!questions.length) {
+                logger.warn(`Questions matching search data: ${searchData} not found`);
+                throw new NotFound('Question', searchData);
             }
-            logger.info(`User with ID: ${id} retrieved`);
-            return user;
+            logger.info(`Questions matching search data: ${searchData} retrieved`);
+            return questions;
         } catch (error) {
-            logger.error(`Error retrieving user with ID: ${id}: `, error);
+            logger.error(`Error retrieving question with ID: ${searchData}: `, error);
             throw error;
         }
     }
 
-    async getAllUsers() {
+    async getAllQuestions() {
         try {
-            const users = await User.find({});
-            logger.info(`Retrieved all users`);
-            return users;
+            const questions = await Question.find({});
+            logger.info(`Retrieved all questions`);
+            return questions;
         } catch (error) {
-            logger.error('Error retrieving all users: ', error);
+            logger.error('Error retrieving all questions: ', error);
             throw error;
         }
     }
 
-    async updateUser(id: string, updatedData: Partial<UserData>) {
+    async updateQuestion(id: string, updatedData: Partial<QuestionData>) {
         try {
-            const updatedUser = await User.findByIdAndUpdate(id, { $set: updatedData }, {
+            const updatedQuestion = await Question.findByIdAndUpdate(id, { $set: updatedData }, {
                 new: true,
                 runValidators: true
             });
-            if (!updatedUser) {
-                logger.warn(`User with ID: ${id} not found for update`);
-                throw new NotFound('User', id);
+            if (!updatedQuestion) {
+                logger.warn(`Question with ID: ${id} not found for update`);
+                throw new NotFound('Question', id);
             }
-            logger.info(`User with ID: ${id} updated`);
-            return updatedUser;
+            logger.info(`Question with ID: ${id} updated`);
+            return updatedQuestion;
         } catch (error) {
-            logger.error(`Error updating user with ID: ${id}: `, error);
+            logger.error(`Error updating question with ID: ${id}: `, error);
             throw error;
         }
     }
 
-    async deleteUser(id: string) {
+    async deleteQuestion(id: string) {
         try {
-            const deleteUser = await User.findByIdAndDelete(id);
-            if (!deleteUser) {
-                logger.warn(`User with ID: ${id} not found for deletion`);
-                throw new NotFound('User', id);
+            const deleteQuestion = await Question.findByIdAndDelete(id);
+            if (!deleteQuestion) {
+                logger.warn(`Question with ID: ${id} not found for deletion`);
+                throw new NotFound('Question', id);
             }
-            logger.info(`User with ID: ${id} deleted`);
-            return deleteUser;
+            logger.info(`Question with ID: ${id} deleted`);
+            return deleteQuestion;
         } catch (error) {
-            logger.error(`Error deleting user with ID: ${id}: `, error);
+            logger.error(`Error deleting question with ID: ${id}: `, error);
             throw error;
         }
     }
 };
 
-module.exports = UserRepository;
+module.exports = QuestionRepository;

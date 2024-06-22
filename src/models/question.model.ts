@@ -5,7 +5,6 @@ interface IQuestion extends Document {
     body: string;
     topics: string[];
     user_id: string;
-    createdAt?: Date;
 }
 
 const questionSchema: Schema = new mongoose.Schema({

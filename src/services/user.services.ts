@@ -1,14 +1,14 @@
-interface UserData {
+interface QuestionData {
     username: string;
     email: string;
     bio?: string;
 }
 
 interface UserRepository {
-    createUser(UserData: UserData): Promise<any>;
+    createUser(UserData: QuestionData): Promise<any>;
     getUser(userId: string): Promise<any>;
     getAllUsers(): Promise<any[]>;
-    updateUser(userId: string, updatedData: Partial<UserData>): Promise<any>;
+    updateUser(userId: string, updatedData: Partial<QuestionData>): Promise<any>;
     deleteUser(userId: string): Promise<any>;
 }
 
@@ -19,7 +19,7 @@ class UserService {
         this.UserRepository = UserRepository;
     }
 
-    async createUser(UserData: UserData): Promise<any> {
+    async createUser(UserData: QuestionData): Promise<any> {
         const user = await this.UserRepository.createUser(UserData);
         return user;
     }
@@ -34,7 +34,7 @@ class UserService {
         return users;
     }
 
-    async updateUser(userId: string, updatedData: Partial<UserData>): Promise<any> {
+    async updateUser(userId: string, updatedData: Partial<QuestionData>): Promise<any> {
         const user = await this.UserRepository.updateUser(userId, updatedData);
         return user;
     }
