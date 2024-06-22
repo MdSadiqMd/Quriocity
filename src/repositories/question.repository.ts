@@ -26,17 +26,21 @@ class QuestionRepository {
         }
     }
 
-    async searchQuestion(searchData: string, projection?: Partial<Record<keyof QuestionData, number>>) {
+    async searchQuestion(searchData: Partial<QuestionData>) {
         try {
-            const questions = await Question.find({ $text: { $search: searchData } }).select(projection);
+            const query: any = {};
+            for (const [key, value] of Object.entries(searchData)) {
+                query[key] = { $regex: value, $options: 'i' };
+            }
+            const questions = await Question.find(query);
             if (!questions.length) {
-                logger.warn(`Questions matching search data: ${searchData} not found`);
+                logger.warn(`Questions matching search data: ${JSON.stringify(searchData)} not found`);
                 throw new NotFound('Question', searchData);
             }
-            logger.info(`Questions matching search data: ${searchData} retrieved`);
+            logger.info(`Questions matching search data: ${JSON.stringify(searchData)} retrieved`);
             return questions;
         } catch (error) {
-            logger.error(`Error retrieving question with ID: ${searchData}: `, error);
+            logger.error(`Error retrieving questions with search data: ${JSON.stringify(searchData)}: `, error);
             throw error;
         }
     }
