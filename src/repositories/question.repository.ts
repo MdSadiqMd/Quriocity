@@ -105,8 +105,6 @@ class QuestionRepository {
                 logger.warn(`Question with ID: ${id} not found for adding answer`);
                 throw new NotFound('Question', id);
             }
-            console.log(question);
-            console.log(answerData);
             const answer = await Answer.create({
                 question_id: id,
                 text: answerData.text,
