@@ -11,6 +11,7 @@ interface IAnswer extends Document {
 const answerSchema: Schema = new mongoose.Schema({
     question_id: {
         type: String,
+        /* ref: 'Question', */
         required: [true, 'question_id of the answer cannot be empty']
     },
     text: {
@@ -18,7 +19,8 @@ const answerSchema: Schema = new mongoose.Schema({
         required: [true, 'Text of the answer cannot be empty']
     },
     user_id: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
+        /* ref: 'User', */
         required: [true, 'user_id of the answer cannot be empty']
     }
 }, {

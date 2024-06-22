@@ -1,4 +1,5 @@
 const { Question } = require('../models/index');
+const { Answer } = require('../models/index');
 const NotFound = require('../errors/notfound.error');
 import logger from "../config/logger.config";
 
@@ -7,6 +8,14 @@ interface QuestionData {
     body: string;
     topics: string[];
     user_id: string;
+}
+
+interface AnswerData {
+    question_id: string;
+    text: string;
+    user_id: string;
+    createdAt?: Date;
+    updatedAt?: Date;
 }
 
 class QuestionRepository {
@@ -85,6 +94,30 @@ class QuestionRepository {
             return deleteQuestion;
         } catch (error) {
             logger.error(`Error deleting question with ID: ${id}: `, error);
+            throw error;
+        }
+    }
+
+    async addAnswer(id: string, answerData: Partial<AnswerData>) {
+        try {
+            const question = await Question.findById(id);
+            if (!question) {
+                logger.warn(`Question with ID: ${id} not found for adding answer`);
+                throw new NotFound('Question', id);
+            }
+            console.log(question);
+            console.log(answerData);
+            const answer = await Answer.create({
+                question_id: id,
+                text: answerData.text,
+                user_id: answerData.user_id,
+                createdAt: new Date(),
+                updatedAt: new Date()
+            });
+            logger.info(`Answer created with ID: ${answer._id}`);
+            return answer;
+        } catch (error) {
+            logger.error(`Error creating answer:`, error);
             throw error;
         }
     }

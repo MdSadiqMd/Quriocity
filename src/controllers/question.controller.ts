@@ -79,11 +79,26 @@ async function deleteQuestion(req: Request, res: Response, next: NextFunction) {
     }
 }
 
+async function addAnswer(req: Request, res: Response, next: NextFunction) {
+    try {
+        const addedAnswer = await questionService.addAnswer(req.params.id, req.body);
+        return res.status(StatusCodes.CREATED).json({
+            success: "true",
+            message: "Answer Added",
+            error: {},
+            data: addedAnswer
+        });
+    } catch (error) {
+        next(error);
+    }
+}
+
 module.exports = {
     pingQuestionController,
     createQuestion,
     searchQuestion,
     getAllQuestions,
     updateQuestion,
-    deleteQuestion
+    deleteQuestion,
+    addAnswer
 };
