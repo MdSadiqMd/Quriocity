@@ -22,7 +22,7 @@ const answerSchema: Schema = new mongoose.Schema({
         required: [true, 'user_id of the answer cannot be empty']
     }
 }, {
-    timestamps: { createdAt: 'created_at' }
+    timestamps: true as const
 });
 
 const Answer: Model<IAnswer> = mongoose.model<IAnswer>('answers', answerSchema);

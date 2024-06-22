@@ -21,7 +21,7 @@ const commentSchema: Schema = new mongoose.Schema({
         required: [true, 'User ID of the comment cannot be empty']
     }
 }, {
-    timestamps: { createdAt: 'created_at' }
+    timestamps: true as const
 });
 
 const Comment: Model<IComment> = mongoose.model<IComment>('comments', commentSchema);

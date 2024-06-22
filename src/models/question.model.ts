@@ -6,7 +6,6 @@ interface IQuestion extends Document {
     topics: string[];
     user_id: string;
     createdAt?: Date;
-    updatedAt?: Date;
 }
 
 const questionSchema: Schema = new mongoose.Schema({
@@ -29,7 +28,7 @@ const questionSchema: Schema = new mongoose.Schema({
         required: [true, 'User ID of the question cannot be empty']
     }
 }, {
-    timestamps: { createdAt: 'created_at' }
+    timestamps: true as const
 });
 
 const Question: Model<IQuestion> = mongoose.model<IQuestion>('questions', questionSchema);
