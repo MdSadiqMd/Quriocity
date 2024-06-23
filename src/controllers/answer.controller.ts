@@ -51,9 +51,24 @@ async function deleteAnswer(req: Request, res: Response, next: NextFunction) {
     }
 }
 
+async function addComment(req: Request, res: Response, next: NextFunction) {
+    try {
+        const comment = await answerService.addComment(req.params.id, req.body);
+        return res.status(StatusCodes.CREATED).json({
+            success: true,
+            message: 'Comment Created Succesfully',
+            error: {},
+            data: comment
+        });
+    } catch (error) {
+        next(error);
+    }
+}
+
 module.exports = {
     pingAnswerController,
     getAllAnswers,
     updateAnswer,
-    deleteAnswer
+    deleteAnswer,
+    addComment
 };

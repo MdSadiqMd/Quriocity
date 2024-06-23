@@ -1,4 +1,5 @@
 const { Answer } = require('../models/index');
+const { Comment } = require('../models/index');
 const NotFound = require('../errors/notfound.error');
 import logger from "../config/logger.config";
 
@@ -8,6 +9,13 @@ interface AnswerData {
     user_id: string;
     createdAt?: Date;
     updatedAt?: Date;
+}
+
+interface CommentData {
+    parent_id: string;
+    text: string;
+    createdAt?: Date;
+    user_id: string;
 }
 
 class AnswerRepository {
@@ -51,6 +59,27 @@ class AnswerRepository {
             return deleteAnswer;
         } catch (error) {
             logger.error(`Error deleting answer with ID: ${id}: `, error);
+            throw error;
+        }
+    }
+
+    async addComment(id: string, commentData: Partial<CommentData>) {
+        try {
+            const answer = await Answer.findById(id);
+            if (!answer) {
+                logger.warn(`Answer with ID: ${id} not found for adding comment`);
+                throw new NotFound('Answer', id);
+            }
+            const comment = await Comment.create({
+                parent_id: id,
+                text: commentData.text,
+                user_id: commentData.user_id,
+                createdAt: new Date(),
+            });
+            logger.info(`Comment created with ID: ${comment._id}`);
+            return comment;
+        } catch (error) {
+            logger.error(`Error creating comment:`, error);
             throw error;
         }
     }
