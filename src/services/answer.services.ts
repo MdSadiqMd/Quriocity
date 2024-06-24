@@ -13,7 +13,7 @@ interface CommentData {
     user_id: string;
 }
 
-interface QuestionRepository {
+interface AnswerRepository {
     getAllAnswers(questionId: string): Promise<any[]>;
     updateAnswer(answerId: string, updatedData: Partial<AnswerData>): Promise<any>;
     deleteAnswer(answerId: string): Promise<any>;
@@ -21,9 +21,9 @@ interface QuestionRepository {
 }
 
 class AnswerService {
-    private AnswerRepository: QuestionRepository;
+    private AnswerRepository: AnswerRepository;
 
-    constructor(AnswerRepository: QuestionRepository) {
+    constructor(AnswerRepository: AnswerRepository) {
         this.AnswerRepository = AnswerRepository;
     }
 
