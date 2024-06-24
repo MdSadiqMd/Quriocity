@@ -11,7 +11,7 @@ v1Router.use("/users", userRouter);
 v1Router.use("/questions", questionRouter);
 v1Router.use("/answers", answerRouter);
 v1Router.use("/comments", commentRouter);
-v1Router.use("/", likeRouter);
+v1Router.use("/likes", likeRouter);
 v1Router.use("/follow", followRouter);
 
 module.exports = v1Router;
