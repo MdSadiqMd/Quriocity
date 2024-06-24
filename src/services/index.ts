@@ -3,5 +3,6 @@ module.exports = {
     QuestionService: require('./question.services'),
     AnswerService: require('./answer.services'),
     CommentService: require('./comment.services'),
-    LikeService: require('./like.services')
+    LikeService: require('./like.services'),
+    FollowService: require('./follow.services')
 };

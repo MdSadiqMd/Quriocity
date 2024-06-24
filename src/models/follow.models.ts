@@ -16,5 +16,5 @@ const followSchema: Schema = new mongoose.Schema<IFollow>({
     }
 });
 
-const Follow = model<IFollow>("likes", followSchema);
+const Follow = model<IFollow>("follow", followSchema);
 module.exports = Follow;
