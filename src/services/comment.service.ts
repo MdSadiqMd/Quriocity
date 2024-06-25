@@ -31,7 +31,7 @@ class CommentService {
     }
 
     async updateComment(commentId: string, updatedData: Partial<CommentData>): Promise<any[]> {
-        const question = await this.CommentRepository.updateComment(commentId,updatedData);
+        const question = await this.CommentRepository.updateComment(commentId, updatedData);
         return question;
     }
 
