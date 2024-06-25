@@ -1,9 +1,9 @@
 module.exports = {
-    UserService: require('./user.services'),
-    QuestionService: require('./question.services'),
-    AnswerService: require('./answer.services'),
-    CommentService: require('./comment.services'),
-    LikeService: require('./like.services'),
-    FollowService: require('./follow.services'),
-    TopicService: require('./topic.services')
+    UserService: require('./user.service'),
+    QuestionService: require('./question.service'),
+    AnswerService: require('./answer.service'),
+    CommentService: require('./comment.service'),
+    LikeService: require('./like.service'),
+    FollowService: require('./follow.service'),
+    TopicService: require('./topic.service')
 };
